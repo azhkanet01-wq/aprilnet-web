@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal Pelanggan - PELANGINET</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: var(--bg-light);">
+
+<!-- NAVBAR CLIENT -->
+<nav class="navbar">
+    <div class="container nav-flex">
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo PELANGINET" class="logo-img">
+            PELANGI<span>NET</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Kembali ke Beranda</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- CLIENT AREA SECTION -->
+<section class="section" style="padding-top: 120px; min-height: 80vh;">
+    <div class="container">
+        
+        <!-- FORM LOGIN CLIENT AREA -->
+        <div id="login-client-card" class="client-card">
+            <a href="index.html" class="btn-back" style="display:inline-block; text-decoration:none;"><i class="fas fa-arrow-left"></i> Beranda</a>
+            <div class="client-header">
+                <img src="img/logo.png" alt="PELANGINET" class="client-logo">
+                <h2>Portal Pelanggan</h2>
+                <p>Masukkan ID Pelanggan Anda untuk mengelola layanan</p>
+            </div>
+            <form id="formLoginClient" onsubmit="prosesLoginClient(event)">
+                <div class="form-group">
+                    <label for="idPelanggan">ID Pelanggan / Nomor Layanan</label>
+                    <input type="text" id="idPelanggan" placeholder="Contoh: PLG-10293" required>
+                </div>
+                <div class="form-group">
+                    <label for="passClient">Kata Sandi / PIN Area</label>
+                    <input type="password" id="passClient" placeholder="Masukkan kata sandi" required>
+                </div>
+                <button type="submit" class="btn-submit">Masuk ke Portal</button>
+            </form>
+        </div>
+
+        <!-- DASHBOARD CLIENT (INTEGRASI MIXRADIUS API UI) -->
+        <div id="dashboard-client" class="dashboard-wrapper" style="display: none;">
+            <div class="dash-topbar">
+                <div>
+                    <span class="welcome-text">Selamat Datang,</span>
+                    <h3 id="dashNamaUser">Budi Santoso</h3>
+                    <small id="dashIdUser">ID: PLG-10293</small>
+                </div>
+                <button class="btn-logout" onclick="logoutClient()"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+            </div>
+
+            <div class="dash-grid">
+                <!-- Status & Paket -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <i class="fas fa-wifi icon-dash"></i>
+                        <h4>Status Berlangganan</h4>
+                    </div>
+                    <div class="status-badge active" id="dashStatusTag">AKTIF</div>
+                    <div class="dash-info-list">
+                        <p><strong>Paket:</strong> <span id="dashPaket">PELANGI Prime (7 Mbps)</span></p>
+                        <p><strong>IP Address:</strong> <span id="dashIP">10.20.0.105</span></p>
+                        <p><strong>Jatuh Tempo:</strong> <span id="dashJatuhTempo">28 Juli 2026</span></p>
+                    </div>
+                </div>
+
+                <!-- Pembayaran Online -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <i class="fas fa-file-invoice-dollar icon-dash"></i>
+                        <h4>Tagihan Bulan Ini</h4>
+                    </div>
+                    <div class="price-tag" id="dashTagihan">Rp 150.000</div>
+                    <p class="text-sub">Status: <span id="statusBayar" class="text-unpaid">Belum Dibayar</span></p>
+                    <button class="btn-card mt-15" onclick="prosesBayarOnline()">Bayar Online Sekarang <i class="fas fa-credit-card"></i></button>
+                </div>
+
+                <!-- Ubah Password Modem (MixRadius Integration) -->
+                <div class="dash-card full-width">
+                    <div class="dash-card-header">
+                        <i class="fas fa-key icon-dash"></i>
+                        <h4>Ubah Kata Sandi Wi-Fi Modem</h4>
+                    </div>
+                    <p class="text-sub">Perubahan password akan langsung dikirimkan ke perangkat modem Anda melalui sistem MixRadius.</p>
+                    
+                    <form id="formGantiPassWifi" onsubmit="prosesGantiPassWifi(event)" class="form-wifi">
+                        <div class="form-group-inline">
+                            <div class="form-group">
+                                <label>SSID / Nama Wi-Fi</label>
+                                <input type="text" id="wifiSSID" value="PELANGINET_BUDI" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kata Sandi Wi-Fi Baru</label>
+                                <input type="password" id="wifiPasswordBaru" placeholder="Minimal 8 karakter" minlength="8" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-submit btn-accent"><i class="fas fa-sync"></i> Perbarui Password Wi-Fi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER CLIENT -->
+<footer class="footer">
+    <div class="container footer-bottom" style="border: none; padding-top: 0;">
+        <p>&copy; 2026 PELANGINET Network. Portal Pelanggan Terintegrasi MixRadius.</p>
+    </div>
+</footer>
+
+<script src="client.js"></script>
+</body>
+</html>

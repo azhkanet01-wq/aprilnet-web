@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Hamburger Menu
+    // 1. Hamburger Menu Mobile
     const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
 
@@ -86,7 +86,6 @@ function movePromo(direction) {
 // Navigasi Halaman Pendaftaran
 function bukaPendaftaran(namaPaket) {
     tutupIklan();
-    tutupClientArea();
     const sectionDaftar = document.getElementById('halaman-daftar');
     const mainContent = document.getElementById('main-content');
     const inputPaket = document.getElementById('inputPaket');
@@ -102,54 +101,6 @@ function bukaPendaftaran(namaPaket) {
 function tutupPendaftaran() {
     document.getElementById('halaman-daftar').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
-}
-
-// Navigasi Client Area
-function bukaClientArea() {
-    tutupIklan();
-    tutupPendaftaran();
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('halaman-client').style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function tutupClientArea() {
-    document.getElementById('halaman-client').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-}
-
-// Logika Client Area & MixRadius API Simulation
-function prosesLoginClient(event) {
-    event.preventDefault();
-    const idPelanggan = document.getElementById('idPelanggan').value;
-
-    document.getElementById('login-client-card').style.display = 'none';
-    document.getElementById('dashboard-client').style.display = 'block';
-    document.getElementById('dashIdUser').innerText = `ID: ${idPelanggan}`;
-}
-
-function logoutClient() {
-    document.getElementById('dashboard-client').style.display = 'none';
-    document.getElementById('login-client-card').style.display = 'block';
-    document.getElementById('formLoginClient').reset();
-}
-
-function prosesBayarOnline() {
-    const idPelanggan = document.getElementById('dashIdUser').innerText;
-    alert(`Mengarahkan ke Payment Gateway untuk ID: ${idPelanggan}...\n\nPembayaran dapat menggunakan QRIS, Bank Transfer, atau Minimarket.`);
-}
-
-function prosesGantiPassWifi(event) {
-    event.preventDefault();
-    const passBaru = document.getElementById('wifiPasswordBaru').value;
-
-    if (confirm(`Apakah Anda yakin ingin mengubah password Wi-Fi menjadi: ${passBaru}?`)) {
-        alert("Mengirimkan instruksi ke Modem via MixRadius ACS...");
-        setTimeout(() => {
-            alert('Berhasil! Password Wi-Fi Modem Anda telah diperbarui.');
-            document.getElementById('wifiPasswordBaru').value = '';
-        }, 1200);
-    }
 }
 
 // Modal Popup Iklan
