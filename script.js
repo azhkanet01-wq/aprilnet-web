@@ -1,79 +1,117 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Toggle Hamburger Menu Mobile
-    const mobileMenu = document.getElementById('mobile-menu');
+    // 1. Hamburger Menu Mobile
+    const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
 
-    if (mobileMenu && navLinks) {
-        mobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('is-active');
             navLinks.classList.toggle('active');
         });
     }
+
+    // 2. Tab Paket Internet
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === targetId) {
+                    content.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // 3. Form Pendaftaran ke WhatsApp
+    const formDaftar = document.getElementById('formPendaftaran');
+
+    if (formDaftar) {
+        formDaftar.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const paket = document.getElementById('inputPaket').value;
+            const nama = document.getElementById('regNama').value;
+            const alamat = document.getElementById('regAlamat').value;
+
+            const noWA = "6285715708144"; 
+
+            const pesan = `Halo PELANGINET, saya ingin mendaftar pemasangan internet.%0A%0A` +
+                          `*Detail Pendaftaran:*%0A` +
+                          `- Paket: ${paket}%0A` +
+                          `- Nama: ${nama}%0A` +
+                          `- Alamat: ${alamat}%0A%0A` +
+                          `Mohon segera diproses, terima kasih.`;
+
+            const urlWA = `https://wa.me/${noWA}?text=${pesan}`;
+            window.open(urlWA, '_blank');
+        });
+    }
+
+    // 4. Auto Slide Promo
+    setInterval(() => {
+        movePromo(1);
+    }, 5000);
 });
 
-// Tutup menu mobile
+// Menutup Navigasi Mobile
 function tutupMenu() {
-    const mobileMenu = document.getElementById('mobile-menu');
+    const menuToggle = document.getElementById('mobile-menu');
     const navLinks = document.querySelector('.nav-links');
-    if (mobileMenu && navLinks) {
-        mobileMenu.classList.remove('active');
+    if (menuToggle) {
+        menuToggle.classList.remove('is-active');
         navLinks.classList.remove('active');
     }
 }
 
-// Switch Tab Paket
-function switchTab(tabId, event) {
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.remove('active'));
-
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-
-    document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
-}
-
-// Control Promo Slider
-let currentPromoIndex = 0;
+// Navigasi Promo Slider
+let promoIndex = 0;
 function movePromo(direction) {
-    const promoSlides = document.getElementById('promoSlides');
-    const totalSlides = 3;
-    currentPromoIndex += direction;
+    const slides = document.getElementById('promoSlides');
+    const totalPromoSlides = 3;
 
-    if (currentPromoIndex < 0) {
-        currentPromoIndex = totalSlides - 1;
-    } else if (currentPromoIndex >= totalSlides) {
-        currentPromoIndex = 0;
+    if (slides) {
+        promoIndex = (promoIndex + direction + totalPromoSlides) % totalPromoSlides;
+        slides.style.transform = `translateX(-${promoIndex * 33.333}%)`;
     }
-
-    const offset = -currentPromoIndex * 33.333;
-    promoSlides.style.transform = `translateX(${offset}%)`;
 }
 
-// Buka Formulir Pendaftaran
+// Navigasi Halaman Pendaftaran
 function bukaPendaftaran(namaPaket) {
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('halaman-daftar').style.display = 'block';
-    document.getElementById('inputPaket').value = namaPaket;
-    window.scrollTo(0, 0);
+    tutupIklan();
+    const sectionDaftar = document.getElementById('halaman-daftar');
+    const mainContent = document.getElementById('main-content');
+    const inputPaket = document.getElementById('inputPaket');
+
+    if (sectionDaftar && mainContent) {
+        mainContent.style.display = 'none';
+        sectionDaftar.style.display = 'block';
+        inputPaket.value = namaPaket;
+        window.scrollTo(0, 0);
+    }
 }
 
-// Tutup Formulir Pendaftaran
 function tutupPendaftaran() {
     document.getElementById('halaman-daftar').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
 }
 
-function tutupClientArea() {}
-function bukaClientArea() {}
+// Modal Popup Iklan
+window.onload = function() {
+    setTimeout(function() {
+        const modal = document.getElementById('modalIklan');
+        if (modal) modal.style.display = 'flex';
+    }, 1000);
+};
 
-// Kirim Form ke WA
-function kirimPendaftaran(event) {
-    event.preventDefault();
-    const paket = document.getElementById('inputPaket').value;
-    const nama = document.getElementById('regNama').value;
-    const alamat = document.getElementById('regAlamat').value;
-
-    const pesan = `Halo PELANGINET, saya ingin mendaftar paket internet:%0A%0A- *Paket*: ${paket}%0A- *Nama*: ${nama}%0A- *Alamat*: ${alamat}`;
-    window.open(`https://wa.me/6285715708144?text=${pesan}`, '_blank');
+function tutupIklan() {
+    const modal = document.getElementById('modalIklan');
+    if (modal) modal.style.display = 'none';
 }
